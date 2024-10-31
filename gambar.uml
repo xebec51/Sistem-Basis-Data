@@ -1,0 +1,98 @@
+@startuml
+
+entity Buku {
+    id_buku : text <PK>
+    --
+    judul : text
+    ISBN  : number
+    Penulis : text
+}
+
+entity Pustakawan {
+    id_pustakawan : number <PK>
+    --
+    nama : text
+}
+
+entity Penulis {
+    id_penulis : number <PK>
+    --
+    nama : text
+}
+
+entity Peminjam {
+    kode_pinjam : text <PK>
+    --
+    nama : text
+}
+
+entity Dosen {
+    kode_pinjam : number <PK>
+    --
+    NIDN : text
+    Fakultas : text
+}
+
+entity Mahasiswa {
+    kode_pinjam : number <PK>
+    --
+    NIM : text
+    Jurusan : text
+}
+
+entity Rekomendasi {
+    id_rekomendasi : text <PK>
+    --
+    kode_pinjam : text <FK>
+    kode_peminjam_rekomendasi : text <FK>
+    --
+    tanggal_rekomendasi : text
+}
+
+object Meminjam {
+    id_peminjaman : text <PK>
+    --
+    kode_pinjam: number <FK>
+    id_pustakawan : number <FK>
+    id_buku : number <FK>
+    --
+    tanggal_pengembalian : text
+    tanggal_peminjaman   : text
+}
+
+Buku ||--o{ Penulis
+note on link
+    Menulis
+end note
+Buku }o-- Meminjam
+Peminjam }|-- Meminjam
+Buku }o--o{ Peminjam
+note on link
+    Menyukai
+end note
+Buku }o--o{ Peminjam
+note on link
+    Meminjam
+end note
+Peminjam ||--o| Mahasiswa
+note on link
+    ISA
+end note
+Peminjam ||--o| Dosen
+note on link
+    ISA
+end note
+Pustakawan ||--o{ Peminjam
+note on link
+    Melayani
+end note
+Peminjam }o-- Rekomendasi
+note on link
+    Merekomendasikan
+end note
+Rekomendasi }o-- Peminjam 
+note on link
+    Merekomendasikan
+end note
+
+@enduml
